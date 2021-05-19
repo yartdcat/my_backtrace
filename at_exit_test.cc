@@ -7,16 +7,19 @@
 using namespace base;
 
 void f1() {
-  LOG(INFO) << "enter local function";
   AtExitManager am;
-  //base::OnceCallback<void()> c =
-      //base::Bind([]() { LOG(INFO) << "f1"; });
-  //AtExitManager::RegisterTask(std::move(c));
+  base::Callback<void()> c = base::Bind([]() { LOG(INFO) << "f1"; });
+  AtExitManager::RegisterTask(std::move(c));
+  LOG(INFO) <<  "f1 done";
+}
 
+void callback1(void*) {
+  LOG(INFO)<<"f2";
 }
 
 void AtExitTest() {
   f1();
   AtExitManager am;
-  AtExitManager::RegisterTask(base::BindOnce([]() { LOG(INFO) << "f2"; });
+  AtExitManager::RegisterCallback(callback1, nullptr);
+  LOG(INFO) <<  "ATExitTest done";
 }
