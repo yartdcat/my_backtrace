@@ -1,0 +1,12 @@
+#
+
+executable("ly_test") {
+  sources = [
+    "main.cc",
+    "at_exit_test.h",
+    "at_exit_test.cc",
+  ]
+  deps = [
+    "//base",
+  ]
+}
