@@ -18,5 +18,5 @@ void f1() {
 void AtExitTest() {
   f1();
   AtExitManager am;
-  AtExitManager::RegisterTask(base::BindOnce([]() { LOG(INFO) << "f2"; }));
+  AtExitManager::RegisterTask(base::BindOnce([]() { LOG(INFO) << "f2"; });
 }
