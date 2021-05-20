@@ -1,8 +1,4 @@
-
-#include "base/at_exit.h"
-#include "base/logging.h"
-#include "base/bind.h"
-#include "base/callback.h"
+#include "common_head.h"
 
 using namespace base;
 
