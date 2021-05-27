@@ -2,6 +2,13 @@
 
 using namespace base;
 
+struct T {
+  void operator()() {
+    LOG(INFO) << "OK";
+  }
+  int a  = 2;
+};
+
 void BindCallBackTest() {
   //repeating can use move, once can use copy
   std::string t = "tmp";
@@ -10,5 +17,8 @@ void BindCallBackTest() {
   base::BindOnce(cb1);
   //base::Bind(std::move(cb2));   repeating can't use OnceBack as Functor
   base::BindOnce(std::move(cb2));
-
+  //bound args will be unwrap
+  int a = 10;
+  base::BindOnce([](const int & p){LOG(INFO) << "ok";}, std::cref(a));
+  base::BindOnce([](const int* p){LOG(INFO) << "ok";}, base::Unretained(&a));
 }
