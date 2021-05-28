@@ -7,6 +7,12 @@ executable("ly_test") {
     "at_exit_test.cc",
     "bind_callback_test.h",
     "bind_callback_test.cc",
+    "task_test.h",
+    "task_test.cc",
+    "thread_test.h",
+    "thread_test.cc",
+    "pump_test.h",
+    "pump_test.cc",
   ]
   deps = [
     "//base",

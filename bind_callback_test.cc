@@ -10,6 +10,7 @@ struct T {
 };
 
 void BindCallBackTest() {
+  TEST(bind_callback);
   //repeating can use move, once can use copy
   std::string t = "tmp";
   auto cb1 = base::Bind([](std::string s){LOG(INFO) <<"ok";}, std::move(t));

@@ -1,3 +1,5 @@
+#include "test/at_exit_test.h"
+
 #include "common_head.h"
 
 using namespace base;
@@ -14,6 +16,7 @@ void callback1(void*) {
 }
 
 void AtExitTest() {
+  TEST(at_exit);
   f1();
   AtExitManager am;
   AtExitManager::RegisterCallback(callback1, nullptr);
