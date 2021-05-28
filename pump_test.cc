@@ -12,12 +12,18 @@ class PumpDelegate : public MessagePump::Delegate {
 
     NextWorkInfo DoWork() override{
       LOG(INFO) << "do work";
-      //run this function per second
-      return {TimeTicks::Now()+TimeDelta::FromSeconds(1),TimeTicks::Now()};
+      bool always_wait = true;
+      if(always_wait){
+        // always wait
+        return {TimeTicks::Max()};
+      } else {
+        // run this function per second
+        return {TimeTicks::Now() + TimeDelta::FromSeconds(1), TimeTicks::Now()};
+      }
     }
     bool DoIdleWork() override {
       LOG(INFO) << "do idle";
-      //true will execute continuously infinite, false will wait
+      //for true here will go continue new loop to DoWork, false will fall into wait
       return false;
     }
     void BeforeWait() override {
@@ -39,9 +45,19 @@ void PumpTest() {
   PumpDelegate delegate;
   base::Thread thread("pump test");
   thread.Start();
+  //signify waiting
   thread.task_runner()->PostDelayedTask(
-      FROM_HERE, base::Bind(&MessagePump::Quit, base::Unretained(pump.get())),
-      TimeDelta::FromSeconds(2));
+      FROM_HERE,
+      base::Bind(&MessagePump::ScheduleWork, base::Unretained(pump.get())),
+      TimeDelta::FromSeconds(1));
+  //stop, firstly wakeup loop
+  thread.task_runner()->PostDelayedTask(FROM_HERE,
+                                        base::Bind(
+                                            [](MessagePump* p) {
+                                              p->Quit();
+                                              p->ScheduleWork();
+                                            },
+                                            pump.get()),
+                                        TimeDelta::FromSeconds(2));
   pump->Run(&delegate);
-
 }
