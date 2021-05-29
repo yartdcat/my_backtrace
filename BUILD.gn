@@ -1,6 +1,7 @@
 #
 
 executable("ly_test") {
+  testonly = true
   sources = [
     "main.cc",
     "common_head.h",
@@ -14,8 +15,25 @@ executable("ly_test") {
     "thread_test.cc",
     "pump_test.h",
     "pump_test.cc",
+    "mojo_test.h",
+    "mojo_test.cc",
   ]
-  deps = [
-    "//base",
+  public_deps = [
+    "//base:base",
+    "//base:base_static",
+    "//mojo:mojo",
+    ":sub"
+  ]
+}
+
+executable("sub") {
+  testonly = true
+  sources = [
+    "sub_process.cc",
+  ]
+  public_deps = [
+    "//base:base",
+    "//base:base_static",
+    "//mojo:mojo"
   ]
 }

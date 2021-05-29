@@ -6,6 +6,7 @@
 #include "test/bind_callback_test.h"
 #include "test/task_test.h"
 #include "test/pump_test.h"
+#include "test/mojo_test.h"
 
 int main(int argc, char* argv[]) {
   base::CommandLine::Init(argc, argv);
@@ -16,5 +17,6 @@ int main(int argc, char* argv[]) {
   BindCallBackTest();
   TaskTest();
   PumpTest();
+  MojoTest();
   AtExitTest();
 }

@@ -13,8 +13,7 @@ void TaskTest() {
   //RegisterTaskExecutor(1, base::GetTaskExecutorForCurrentThread());
   base::ThreadTaskRunnerHandle::Get()->PostTask(
       FROM_HERE, base::Bind([]() { LOG(INFO) << "current task"; }));
-  //base::PostTask(FROM_HERE, {1},
-                 //base::Bind([]() { LOG(INFO) << "post task"; }));
+  //base::PostTask(FROM_HERE, base::Bind([]() { LOG(INFO) << "post task"; }));
 #ifndef OLD_VERSION
   base::GetTaskExecutorForCurrentThread()->PostDelayedTask(
 	  FROM_HERE, {}, base::Bind(&RunLoop::QuitWhenIdle, base::Unretained(&loop)), base::TimeDelta::FromSecondsD(.1));
