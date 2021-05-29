@@ -1,5 +1,7 @@
 #include "test/pump_test.h"
 #include "common_head.h"
+#include "build/build_config.h"
+#include "build/buildflag.h"
 
 #include "base/message_loop/message_pump.h"
 
@@ -10,6 +12,30 @@ class PumpDelegate : public MessagePump::Delegate {
     ~PumpDelegate() override {
     }
 
+	bool DoIdleWork() override {
+		LOG(INFO) << "do idle";
+		//for true here will go continue new loop to DoWork, false will fall into wait
+		return false;
+	}
+
+#ifdef OLD_VERSION
+	bool DoWork() override{
+      LOG(INFO) << "do work";
+	  return false;
+    }
+
+	void BeforeDoInternalWork() override {
+
+	}
+
+	NextWorkInfo DoSomeWork() override {
+		return {};
+	}
+
+	bool DoDelayedWork(TimeTicks* next_delayed_work_time) override {
+		return true;
+	}
+#else
     NextWorkInfo DoWork() override{
       LOG(INFO) << "do work";
       bool always_wait = true;
@@ -21,11 +47,8 @@ class PumpDelegate : public MessagePump::Delegate {
         return {TimeTicks::Now() + TimeDelta::FromSeconds(1), TimeTicks::Now()};
       }
     }
-    bool DoIdleWork() override {
-      LOG(INFO) << "do idle";
-      //for true here will go continue new loop to DoWork, false will fall into wait
-      return false;
-    }
+
+
     void BeforeWait() override {
 
     }
@@ -37,6 +60,7 @@ class PumpDelegate : public MessagePump::Delegate {
     void OnEndNativeWork() override{
 
     }
+#endif
 };
 
 void PumpTest() {

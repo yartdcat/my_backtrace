@@ -3,6 +3,7 @@
 executable("ly_test") {
   sources = [
     "main.cc",
+    "common_head.h",
     "at_exit_test.h",
     "at_exit_test.cc",
     "bind_callback_test.h",
