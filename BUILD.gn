@@ -17,11 +17,17 @@ executable("ly_test") {
     "pump_test.cc",
     "mojo_test.h",
     "mojo_test.cc",
+    "v8_test.h",
+    "v8_test.cc",
+    "gin_test.h",
+    "gin_test.cc",
   ]
   public_deps = [
     "//base:base",
     "//base:base_static",
     "//mojo:mojo",
+    "//v8:v8",
+    "//gin:gin",
     ":sub"
   ]
 }
